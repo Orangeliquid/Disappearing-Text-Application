@@ -1,6 +1,12 @@
 import tkinter as tk
 from tkinter import messagebox
 
+# Constants for button width and colors
+BUTTON_WIDTH = 8
+BUTTON_BG_COLOR = "#ADCEFF"
+TIMER_LABEL_BG_COLOR = "#ADCEFF"
+WINDOW_BG_COLOR = "#FFDEAD"
+
 
 def help_message():
     messagebox.showinfo(title="Help",
@@ -24,10 +30,8 @@ class PlaceholderText(tk.Text):
     def __init__(self, master=None, placeholder=None, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
         self.placeholder = placeholder
-
         self.bind("<FocusIn>", self.on_focus_in)
         self.bind("<FocusOut>", self.on_focus_out)
-
         self.add_placeholder()
 
     def on_focus_in(self, event):
@@ -55,7 +59,7 @@ class DisappearingText:
         # TK window creation
         self.window = tk.Tk()
         self.window.title("Disappearing Text Application")
-        self.window.config(bg="#FFDEAD")
+        self.window.config(bg=WINDOW_BG_COLOR)
         self.window.geometry("800x350")
 
         # Text box creation using PlaceholderText
@@ -64,15 +68,18 @@ class DisappearingText:
         self.text.grid(row=1, column=2, columnspan=3, rowspan=5, pady=20, padx=10)
 
         # Help button and grid
-        self.help_button = tk.Button(text="Help", width=8, bg="#ADCEFF", font="Futura", command=help_message)
+        self.help_button = tk.Button(text="Help", width=BUTTON_WIDTH, bg=BUTTON_BG_COLOR, font="Futura",
+                                     command=help_message)
         self.help_button.grid(row=6, column=2, padx=10, sticky="w")
 
         # About button creation and grid
-        self.about_button = tk.Button(width=8, text="About", bg="#ADCEFF", font="Futura", command=about_message)
+        self.about_button = tk.Button(width=BUTTON_WIDTH, text="About", bg=BUTTON_BG_COLOR, font="Futura",
+                                      command=about_message)
         self.about_button.grid(row=6, column=4, padx=10, sticky="e")
 
         # Timer creation
-        self.time_count_label = tk.Label(text=self.timer, width=8, bg="#ADCEFF", font="Futura", relief=tk.SOLID)
+        self.time_count_label = tk.Label(text=self.timer, width=BUTTON_WIDTH, bg=TIMER_LABEL_BG_COLOR, font="Futura",
+                                         relief=tk.SOLID)
         self.time_count_label.grid(row=6, column=3, pady=10)
 
         self.text.bind("<Key>", self.started_typing)
@@ -95,11 +102,13 @@ class DisappearingText:
             self.window.after(1000, self.countdown)
 
     def started_typing(self, event):
-        if self.has_typed:
-            self.reset_timer()
-        else:
-            self.has_typed = True
-            self.countdown()
+        # Ignore certain keys like Enter or Backspace
+        if event.keysym not in ["Return", "BackSpace"]:
+            if self.has_typed:
+                self.reset_timer()
+            else:
+                self.has_typed = True
+                self.countdown()
 
 
 if __name__ == "__main__":
