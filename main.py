@@ -59,7 +59,8 @@ class DisappearingText:
         self.window.geometry("800x350")
 
         # Text box creation using PlaceholderText
-        self.text = PlaceholderText(self.window, placeholder="Type here to start.", height=5, width=52, wrap="word", font=("Arial", 20), spacing1=8, spacing2=12, spacing3=12)
+        self.text = PlaceholderText(self.window, placeholder="Type here to start.", height=5, width=52, wrap="word",
+                                    font=("Arial", 20), spacing1=8, spacing2=12, spacing3=12)
         self.text.grid(row=1, column=2, columnspan=3, rowspan=5, pady=20, padx=10)
 
         # Help button and grid
